@@ -102,4 +102,7 @@ class TestBoggle(unittest.TestCase):
         that has a length greater than 0
         """
         dictionary = boggle.get_dictionary('words.txt')
-        self.assertGreater(len(dictionary), 0)    
+        self.assertGreater(len(dictionary), 0)   
+        
+if __name__ == "__main__":
+    unittest.main()        

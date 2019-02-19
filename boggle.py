@@ -86,16 +86,24 @@ def get_dictionary(dictionary_file):
     with open(dictionary_file) as f:
         return [w.strip().upper() for w in f]
         
+def display_words(words):
+    # function to extract the code for diplaying the words
+    for word in words:
+     print(word)
+    print("Found %s words" %len(words))
 def main():
     """
     This is the function that will run the whole project
     """
     grid = make_grid(3, 3)
+    """
+    For the challenge we can change grid for 3x3 to 2x2
+    3x3 grid run time : 3 to 5 seconds
+    2x2 grid run time : 0.6 to 2 seconds
+    """
     dictionary = get_dictionary('words.txt')
     words = search(grid, dictionary)
-    for word in words:
-        print(word)
-    print("Found %s words" % len(words))   
+    display_words(words) 
 
 if __name__ == "__main__":
     main()
