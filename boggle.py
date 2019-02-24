@@ -55,6 +55,7 @@ def path_to_word(grid, path):
     """
     return ''.join([grid[p] for p in path]) 
     
+
 def search(grid, dictionary):
     """
     Search thrugh the paths to locate words by matching
@@ -62,11 +63,14 @@ def search(grid, dictionary):
     """
     neighbours = all_grid_neighbours(grid)
     paths = []
-
+    full_words, stems = dictionary
+    
     def do_search(path):
         word = path_to_word(grid, path)
-        if word in dictionary:
+        if word in full_words:
             paths.append(path)
+        if word not in stems :
+            return
         for next_pos in neighbours[path[-1]]:
             if next_pos not in path:
                 do_search(path + [next_pos])
@@ -83,8 +87,17 @@ def get_dictionary(dictionary_file):
     """
     Load dictionary file
     """
+    full_words, stems = set(), set()
+    
     with open(dictionary_file) as f:
-        return [w.strip().upper() for w in f]
+        for word in f:
+            word = word.strip().upper()
+            full_words.add(word)
+            
+            for i in range (1, len(word)):
+                stems.add(word[:i])
+                
+    return  full_words, stems
         
 def display_words(words):
     # function to extract the code for diplaying the words
@@ -95,11 +108,15 @@ def main():
     """
     This is the function that will run the whole project
     """
-    grid = make_grid(3, 3)
+    grid = make_grid(4, 4)
     """
-    For the challenge we can change grid for 3x3 to 2x2
-    3x3 grid run time : 3 to 5 seconds
-    2x2 grid run time : 0.6 to 2 seconds
+    For the challenge we can change grid for 3x3 to 2x2 or 4x4
+    4x4 grid run time : too long didn`t wait for program to finsh  before optimized time function  
+    after optimized time function : 0.095 seconds
+    3x3 grid run time : 3 to 5 seconds before optimized time function  
+    after optimized time function : 0.088 seconds
+    2x2 grid run time : 0.6 to 2 seconds before optimized time function
+    after optimized time function : 0.085 seconds
     """
     dictionary = get_dictionary('words.txt')
     words = search(grid, dictionary)
